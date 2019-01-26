@@ -1,3 +1,3 @@
 # DATA SCIENCE
 
-Implementation of different algorithms that I have develop during the my free time.
+Implementation of different algorithms that I have developed during the my free time.
