@@ -94,7 +94,7 @@ def train_and_count_errors(x: np.ndarray, y: np.ndarray, neighbours: int = 1, pl
     accumulated_svm_error = 0
     for train_index, test_index in leave_one_out.split(x):
         knn_clf = neighbors.KNeighborsClassifier(neighbours, metric='euclidean')
-        svm_clf = svm.SVC(kernel='linear', C=10000)
+        svm_clf = svm.SVC(kernel='linear', C=10)
         # Train the classifiers
         knn_clf.fit(x[train_index], y[train_index])
         svm_clf.fit(x[train_index], y[train_index])
@@ -110,8 +110,10 @@ def train_and_count_errors(x: np.ndarray, y: np.ndarray, neighbours: int = 1, pl
 
 
 if __name__ == '__main__':
-    # data = np.array([[1, 1], [2, 1], [10, 1], [11, 1], [1, 10], [2, 10], [10, 10], [11, 10]])
-    # target_class = np.array([0, 0, 1, 1, 1, 1, 0, 0])
+    data = np.array([[1, 1], [2, 1], [10, 1], [11, 1], [1, 10], [2, 10], [10, 10], [11, 10]])
+    target_class = np.array([0, 0, 1, 1, 1, 1, 0, 0])
+    knn_error, svm_error = train_and_count_errors(data, target_class)
+    print('The k-NN classifier has made {0} error, the SVM has made {1} errors'.format(knn_error, svm_error))
     data = np.array([[1, 1], [2, 1], [10, 1], [11, 1], [1, 10], [2, 10], [10, 10], [11, 10]])
     target_class = np.array([0, 0, 0, 1, 0, 0, 0, 1])
     knn_error, svm_error = train_and_count_errors(data, target_class)
