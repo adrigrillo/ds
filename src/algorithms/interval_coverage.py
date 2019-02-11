@@ -12,25 +12,52 @@ import math
 from typing import List
 
 
-def check_interval_coverage(intvl_upper_limit: int, sub_intvl_positions: List[int], range: int = 1) -> bool:
+def check_interval_coverage(intvl_upper_limit: int, sub_intvl_positions: List[int], range_length: int = 1) -> bool:
+    """
+    Method that checks if given sub-intervals are correctly situated to cover all the original segment.
+
+    :param intvl_upper_limit: upper bound of the interval
+    :param sub_intvl_positions: middle point positions of the sub-intervals
+    :param range_length: range of the sub-interval from the middle point
+    :return: True is the solution is valid, false otherwise
+    """
     if intvl_upper_limit == 0:
         raise ValueError('The upper limit of the interval has to be bigger than 0')
     covered = 0
     for position in sub_intvl_positions:
-        lower_bound = position - range
-        upper_bound = position + range
+        lower_bound = position - range_length
+        upper_bound = position + range_length
         if lower_bound <= covered < upper_bound:
             covered = upper_bound
-    if covered > intvl_upper_limit:
+    if covered >= intvl_upper_limit:
         return True
     else:
         return False
 
 
-# def minimum_number_of_stations(intvl_upper_limit: int, range: int = 1) -> float:
-#     return math.log(2 * intvl_upper_limit / range - 4, 2)
+def get_minimum_subintervals_set_math(intvl_upper_limit: int, range_length: int = 1) -> List[int]:
+    """
+    Method that returns the minimal set of placements that cover the full interval. This method uses
+    the mathematical expresion that minimizes the number of points, however it can go out of the range,
+    so the last point is set to the upper bound when this situation happens.
+
+    :param intvl_upper_limit: upper bound of the interval
+    :param range_length: range of the sub-interval from the placement points
+    :return: list with the position
+    """
+    if intvl_upper_limit == 0:
+        raise ValueError('The upper limit of the interval has to be bigger than 0')
+    number_of_subintervals = math.ceil(intvl_upper_limit / (2 * range_length))
+    positions = []
+    for i in range(number_of_subintervals):
+        if i == 0:
+            positions.append(range_length)
+        else:
+            position = range_length + 2 ** i * range_length
+            positions.append(position if position <= intvl_upper_limit else intvl_upper_limit)
+    return positions
 
 
 if __name__ == '__main__':
-    result = check_interval_coverage(5, [2, 4, 5])
+    result = get_minimum_subintervals_set_math(5, 2)
     print(result)
