@@ -67,8 +67,13 @@ def _get_majority_dc(array: List[int]) -> Optional[int]:
     majority_right = _get_majority_dc(array[split_index:])
     if majority_left == majority_right:
         return majority_left
-    count_majority_left = array.count(majority_left)
-    count_majority_right = array.count(majority_right)
+    count_majority_left = 0
+    count_majority_right = 0
+    for item in array:
+        if item == majority_left:
+            count_majority_left += 1
+        elif item == majority_right:
+            count_majority_right +=1
     if count_majority_left > split_index:
         return majority_left
     elif count_majority_right > split_index:
